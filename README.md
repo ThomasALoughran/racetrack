@@ -1,6 +1,6 @@
 # Run for the Roses 🌹
 
-A Kentucky Derby–themed leaderboard for an Anthropic NA Banking consumption
+A Kentucky Derby–themed leaderboard for an NA Banking consumption
 team. It visualizes how the top 25 North American banks are racing against
 four ARR thresholds — **$1, $10K, $100K, $1M** — and which of the five AEs
 ("jockeys") is winning the meet.
