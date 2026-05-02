@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Run for the Roses — Top 25 NA Banks Threshold Race</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="masthead-inner">
+        <div class="title-block">
+          <div class="kicker">Anthropic &middot; NA Banking Consumption</div>
+          <h1>Run for the Roses</h1>
+          <div class="subtitle">
+            Top 25 North American Banks &middot; Threshold Race &middot;
+            <span id="raceDate"></span>
+          </div>
+        </div>
+        <div class="race-meta">
+          <div class="meta-card">
+            <div class="meta-label">Purse</div>
+            <div class="meta-value">$1 &rarr; $10K &rarr; $100K &rarr; $1M ARR</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-label">Race Distance</div>
+            <div class="meta-value">10 furlongs &middot; T7D sticky ARR</div>
+          </div>
+          <div class="meta-card last-update">
+            <div class="meta-label">Tote Board</div>
+            <div class="meta-value" id="lastUpdate">live mock</div>
+          </div>
+        </div>
+      </div>
+      <div class="rose-bar"></div>
+    </header>
+
+    <main>
+      <section class="leaderboard-section">
+        <div class="section-header">
+          <h2>Jockey Standings</h2>
+          <div class="section-sub">Accounts past each threshold &middot; click a jockey to filter the track</div>
+        </div>
+        <div id="leaderboard" class="leaderboard"></div>
+      </section>
+
+      <section class="track-section">
+        <div class="section-header">
+          <h2>The Track</h2>
+          <div class="section-sub">
+            Each horse is an account &middot; position = T7D ARR on a log scale
+            <span class="legend-dot sticky"></span> sticky
+            <span class="legend-dot accel"></span> accelerating
+            <span class="legend-dot cold"></span> cold
+          </div>
+          <div class="track-controls">
+            <label>
+              Sort
+              <select id="sortMode">
+                <option value="arr">By T7D ARR</option>
+                <option value="ae">By Jockey</option>
+                <option value="account">By Account</option>
+                <option value="momentum">By Momentum (T7D/T28D)</option>
+              </select>
+            </label>
+            <button id="clearFilter" class="ghost-btn" hidden>Clear filter</button>
+          </div>
+        </div>
+
+        <div class="track" id="track">
+          <div class="track-poles">
+            <div class="pole" style="left: 0%"><div class="pole-label">Gate</div></div>
+            <div class="pole pole-1" style="left: 25%"><div class="pole-label">$1</div></div>
+            <div class="pole pole-10k" style="left: 50%"><div class="pole-label">$10K</div></div>
+            <div class="pole pole-100k" style="left: 75%"><div class="pole-label">$100K</div></div>
+            <div class="pole pole-1m finish" style="left: 100%"><div class="pole-label">$1M &mdash; Finish</div></div>
+          </div>
+          <div class="lanes" id="lanes"></div>
+        </div>
+      </section>
+
+      <section class="winners-section">
+        <div class="section-header">
+          <h2>Winner&rsquo;s Circle</h2>
+          <div class="section-sub">Accounts already past the $1M finish line &middot; sticky ARR confirmed</div>
+        </div>
+        <div id="winnersCircle" class="winners-circle"></div>
+      </section>
+
+      <section class="table-section">
+        <div class="section-header">
+          <h2>Race Card</h2>
+          <div class="section-sub">All 25 starters &middot; T7D &amp; T28D detail</div>
+        </div>
+        <div class="table-wrap">
+          <table class="race-card">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Account</th>
+                <th>Jockey</th>
+                <th class="num">T28D ARR</th>
+                <th class="num">T7D ARR</th>
+                <th class="num">Momentum</th>
+                <th>Furlong</th>
+              </tr>
+            </thead>
+            <tbody id="raceCardBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div>
+        Mock data only &middot; ready to be wired to Salesforce in the production environment.
+      </div>
+      <div class="muted">
+        Source: <code>assets/js/data.js</code> &middot; Replace
+        <code>getAccountConsumption()</code> with a Salesforce query to go live.
+      </div>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
