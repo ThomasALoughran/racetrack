@@ -2,7 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#7a0019" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Run for the Roses" />
+    <meta name="format-detection" content="telephone=no" />
     <title>Run for the Roses — Top 25 NA Banks Threshold Race</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -73,15 +78,28 @@
           </div>
         </div>
 
-        <div class="track" id="track">
-          <div class="track-poles">
-            <div class="pole" style="left: 0%"><div class="pole-label">Gate</div></div>
-            <div class="pole pole-1" style="left: 25%"><div class="pole-label">$1</div></div>
-            <div class="pole pole-10k" style="left: 50%"><div class="pole-label">$10K</div></div>
-            <div class="pole pole-100k" style="left: 75%"><div class="pole-label">$100K</div></div>
-            <div class="pole pole-1m finish" style="left: 100%"><div class="pole-label">$1M &mdash; Finish</div></div>
+        <div class="track-desktop">
+          <div class="track" id="track">
+            <div class="track-poles">
+              <div class="pole" style="left: 0%"><div class="pole-label">Gate</div></div>
+              <div class="pole pole-1" style="left: 25%"><div class="pole-label">$1</div></div>
+              <div class="pole pole-10k" style="left: 50%"><div class="pole-label">$10K</div></div>
+              <div class="pole pole-100k" style="left: 75%"><div class="pole-label">$100K</div></div>
+              <div class="pole pole-1m finish" style="left: 100%"><div class="pole-label">$1M &mdash; Finish</div></div>
+            </div>
+            <div class="lanes" id="lanes"></div>
           </div>
-          <div class="lanes" id="lanes"></div>
+        </div>
+
+        <div class="track-mobile" id="trackMobile">
+          <div class="mt-axis">
+            <span class="mt-axis-label" style="left:0%">Gate</span>
+            <span class="mt-axis-label" style="left:25%">$1</span>
+            <span class="mt-axis-label" style="left:50%">$10K</span>
+            <span class="mt-axis-label" style="left:75%">$100K</span>
+            <span class="mt-axis-label finish" style="left:100%">$1M</span>
+          </div>
+          <div class="mt-lanes" id="mtLanes"></div>
         </div>
       </section>
 
