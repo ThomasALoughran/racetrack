@@ -170,6 +170,51 @@
       `;
       lanes.appendChild(lane);
     });
+
+    renderMobileTrack(state, sorted, aeById);
+  }
+
+  // -------- Mobile Track (vertical lane cards) --------
+  function renderMobileTrack(state, sorted, aeById) {
+    const mt = document.getElementById('mtLanes');
+    mt.innerHTML = '';
+    sorted.forEach((acc) => {
+      const ae = aeById[acc.aeId];
+      const pos = arrToPosition(acc.t7dArr) * 100;
+      const m = momentumOf(acc);
+      const cls = classifyHorse(acc);
+      const lane = document.createElement('div');
+      lane.className = `mt-lane ${cls}`;
+      lane.dataset.aeId = acc.aeId;
+      if (state.filterAeId && state.filterAeId !== acc.aeId) {
+        lane.classList.add('dim');
+      }
+      const momentumLabel = !isFinite(m)
+        ? 'NEW'
+        : acc.t7dArr === 0
+        ? ''
+        : (m * 100 - 100 >= 1 ? '+' : '') + (m * 100 - 100).toFixed(0) + '%';
+      const momentumClass = !isFinite(m) || m > 1.05 ? 'up' : '';
+      lane.innerHTML = `
+        <div class="mt-lane-head">
+          <span class="mt-silks" style="${silksStyle(ae.silks)}"></span>
+          <span class="mt-account">${acc.name}</span>
+          <span class="mt-arr">${fmtMoney(acc.t7dArr)}</span>
+          ${momentumLabel ? `<span class="mt-momentum ${momentumClass}">${momentumLabel}</span>` : ''}
+        </div>
+        <div class="mt-rail">
+          <div class="mt-progress" style="width:${pos}%"></div>
+          <div class="mt-tick t-1" style="left:25%"></div>
+          <div class="mt-tick t-10k" style="left:50%"></div>
+          <div class="mt-tick t-100k" style="left:75%"></div>
+          <div class="mt-tick t-1m" style="left:100%"></div>
+          <div class="mt-horse" style="left:${pos}%;${silksStyle(ae.silks)}">
+            <div class="mt-horse-emoji">&#x1F40E;</div>
+          </div>
+        </div>
+      `;
+      mt.appendChild(lane);
+    });
   }
 
   // -------- Winners' Circle --------

@@ -18,6 +18,7 @@
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
@@ -29,12 +30,20 @@ body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+}
+
+button,
+select {
+  font-family: inherit;
 }
 
 main {
   max-width: 1400px;
   margin: 0 auto;
   padding: 32px 24px 64px;
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
 }
 
 h1,
@@ -69,6 +78,9 @@ h3 {
   max-width: 1400px;
   margin: 0 auto;
   padding: 36px 24px 28px;
+  padding-top: max(36px, calc(env(safe-area-inset-top) + 20px));
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -208,11 +220,12 @@ h3 {
 }
 .track-controls select {
   font-family: inherit;
-  font-size: 13px;
-  padding: 6px 10px;
+  font-size: 16px; /* prevent iOS zoom-on-focus */
+  padding: 8px 10px;
   border: 1px solid #d8c9a8;
   border-radius: 4px;
   background: var(--paper);
+  min-height: 36px;
 }
 .ghost-btn {
   background: transparent;
@@ -394,6 +407,11 @@ h3 {
 }
 
 /* Track */
+.track-desktop { display: block; }
+.track-mobile { display: none; }
+
+.swipe-hint { display: none; }
+
 .track {
   background:
     repeating-linear-gradient(
@@ -576,6 +594,175 @@ h3 {
   border-color: var(--gold);
 }
 
+/* Mobile track */
+.track-mobile {
+  background: linear-gradient(180deg, var(--turf) 0%, var(--turf-dark) 100%);
+  border: 4px solid var(--rail);
+  border-radius: 12px;
+  padding: 16px 14px 12px;
+  box-shadow: var(--shadow);
+}
+.mt-axis {
+  position: relative;
+  height: 18px;
+  margin: 0 6px 6px;
+}
+.mt-axis-label {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(247, 239, 225, 0.9);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.mt-axis-label.finish { color: var(--gold); transform: translateX(-100%); }
+.mt-axis-label:first-child { transform: translateX(0); }
+
+.mt-lanes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mt-lane {
+  background: rgba(27, 20, 16, 0.45);
+  border: 1px solid rgba(212, 169, 58, 0.25);
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: opacity 0.2s;
+}
+.mt-lane.dim { opacity: 0.3; }
+.mt-lane.is-winner {
+  background: rgba(184, 0, 43, 0.55);
+  border-color: var(--gold);
+}
+.mt-lane-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.mt-silks {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.mt-silks::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--silk-secondary, #fff);
+}
+.mt-silks::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--silk-primary) 0 50%, transparent 50%);
+}
+.mt-account {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.mt-arr {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.mt-lane.is-cold .mt-arr { color: rgba(247, 239, 225, 0.55); }
+.mt-momentum {
+  font-size: 11px;
+  color: rgba(247, 239, 225, 0.7);
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+.mt-momentum.up { color: var(--gold); }
+
+.mt-rail {
+  position: relative;
+  height: 18px;
+  background: rgba(247, 239, 225, 0.12);
+  border-radius: 9px;
+}
+.mt-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateX(-1px);
+}
+.mt-tick.t-1m {
+  background: repeating-linear-gradient(
+    0deg,
+    #fff 0 4px,
+    var(--ink) 4px 8px
+  );
+  width: 4px;
+}
+.mt-progress {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, rgba(212, 169, 58, 0.35), rgba(212, 169, 58, 0.65));
+  border-radius: 9px 0 0 9px;
+}
+.mt-lane.is-winner .mt-progress {
+  background: linear-gradient(90deg, var(--rose), var(--gold));
+  border-radius: 9px;
+}
+.mt-horse {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  overflow: hidden;
+  z-index: 2;
+  transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.mt-horse::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--silk-secondary, #fff);
+}
+.mt-horse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--silk-primary) 0 50%, transparent 50%);
+}
+.mt-horse-emoji {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  z-index: 2;
+}
+.mt-lane.is-winner .mt-horse {
+  box-shadow: 0 0 0 2px var(--gold), 0 0 12px rgba(212, 169, 58, 0.7);
+}
+
 /* Winners circle */
 .winners-circle {
   display: grid;
@@ -720,6 +907,9 @@ h3 {
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
   font-size: 12px;
   color: var(--ink-soft);
   border-top: 1px solid var(--rail);
@@ -737,9 +927,68 @@ h3 {
   font-size: 11px;
 }
 
-@media (max-width: 720px) {
-  .section-header h2 { font-size: 24px; }
-  .race-meta { width: 100%; }
-  .horse-label { display: none; }
-  .lane { height: 38px; }
+/* ---------- Tablet ---------- */
+@media (max-width: 900px) {
+  .section-header h2 { font-size: 26px; }
+  .track-controls {
+    margin-left: 0;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+/* ---------- Phone (iPhone portrait) ---------- */
+@media (max-width: 600px) {
+  main { padding: 20px 16px 48px; }
+
+  .masthead-inner { padding: 28px 16px 20px; gap: 18px; }
+  .title-block h1 { font-size: 40px; }
+  .title-block .subtitle { font-size: 13px; }
+  .race-meta { width: 100%; gap: 8px; }
+  .meta-card { flex: 1 1 calc(50% - 8px); min-width: 0; padding: 8px 10px; }
+  .meta-card .meta-value { font-size: 12px; }
+
+  .section-header { margin: 28px 0 14px; gap: 8px; }
+  .section-header h2 { font-size: 22px; }
+  .section-header .section-sub { font-size: 12px; }
+  .section-header .section-sub .legend-dot { margin-left: 8px; }
+
+  /* Jockey cards */
+  .leaderboard { gap: 12px; }
+  .jockey-card { padding: 14px; }
+  .jockey-name { font-size: 14px; }
+  .jockey-handle { font-size: 11px; }
+  .silks { width: 32px; height: 32px; }
+  .tb .tb-count { font-size: 16px; }
+
+  /* Swap to mobile-native vertical lanes on phones */
+  .track-desktop { display: none; }
+  .track-mobile { display: block; }
+
+  /* Winners circle */
+  .winners-circle { gap: 10px; }
+  .winner-card { padding: 12px; }
+  .winner-card .wc-account { font-size: 17px; }
+
+  /* Race card table */
+  .race-card { font-size: 12px; }
+  .race-card thead th { padding: 8px 10px; }
+  .race-card td { padding: 8px 10px; }
+
+  .foot { flex-direction: column; padding: 16px; }
+}
+
+/* ---------- Small phone (iPhone SE) ---------- */
+@media (max-width: 380px) {
+  .title-block h1 { font-size: 34px; }
+  .meta-card { flex: 1 1 100%; }
+  .threshold-badges { gap: 4px; }
+  .tb .tb-label { font-size: 9px; }
+  .tb .tb-count { font-size: 15px; }
+}
+
+/* ---------- Phone landscape ---------- */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .masthead-inner { padding: 16px 24px; }
+  .title-block h1 { font-size: 32px; }
 }
