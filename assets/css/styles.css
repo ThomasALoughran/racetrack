@@ -249,6 +249,18 @@ h3 {
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   overflow: hidden;
 }
+.jockey-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+}
+.jockey-card.rank-1::before { background: var(--gold); }
+.jockey-card.rank-2::before { background: #b8b8b8; }
+.jockey-card.rank-3::before { background: #b87333; }
 .jockey-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow);
@@ -258,38 +270,41 @@ h3 {
   border-color: var(--rose);
   box-shadow: 0 0 0 2px rgba(184, 0, 43, 0.2), var(--shadow);
 }
-.jockey-card .rank-badge {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-weight: 900;
-  font-size: 22px;
-  color: var(--gold-dark);
-  opacity: 0.45;
+
+.rank-pill {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--rail);
+  color: var(--ink-soft);
+  align-self: flex-start;
 }
-.jockey-card.rank-1 .rank-badge,
-.jockey-card.rank-2 .rank-badge,
-.jockey-card.rank-3 .rank-badge {
-  opacity: 1;
+.jockey-card.rank-1 .rank-pill {
+  background: var(--gold);
+  color: #4a3500;
 }
-.jockey-card.rank-1 .rank-badge {
-  color: var(--gold);
-  text-shadow: 0 1px 0 var(--gold-dark);
+.jockey-card.rank-2 .rank-pill {
+  background: #d8d8d8;
+  color: #333;
 }
-.jockey-card.rank-2 .rank-badge {
-  color: #a9a9a9;
-}
-.jockey-card.rank-3 .rank-badge {
-  color: #b87333;
+.jockey-card.rank-3 .rank-pill {
+  background: #d9a273;
+  color: #4a2a10;
 }
 
 .jockey-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+}
+.jockey-id {
+  flex: 1;
+  min-width: 0;
 }
 .silks {
   width: 38px;
@@ -329,35 +344,38 @@ h3 {
 .threshold-badges {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 .tb {
   border: 1px solid var(--rail);
   border-radius: 6px;
-  padding: 6px 4px;
+  padding: 6px 2px 4px;
   text-align: center;
-  background: linear-gradient(180deg, #fff, var(--paper));
+  background: #fff;
 }
 .tb .tb-label {
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   color: var(--ink-soft);
-  text-transform: uppercase;
 }
 .tb .tb-count {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 900;
-  font-style: italic;
-  line-height: 1.1;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 2px;
+  color: var(--ink);
 }
 .tb.win {
   border-color: var(--rose);
-  background: linear-gradient(180deg, #fff, #fde8ec);
+  background: #fde8ec;
 }
 .tb.win .tb-count {
   color: var(--rose);
+}
+.tb.empty .tb-count {
+  color: #c0b8a8;
 }
 
 .jockey-foot {

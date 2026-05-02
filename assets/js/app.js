@@ -95,24 +95,26 @@
     container.innerHTML = '';
     standings.forEach((row, idx) => {
       const rank = idx + 1;
+      const rankLabel =
+        rank === 1 ? 'Win' : rank === 2 ? 'Place' : rank === 3 ? 'Show' : `${rank}th`;
       const card = document.createElement('div');
       card.className = `jockey-card rank-${rank}`;
       card.dataset.aeId = row.ae.id;
       card.style.cssText = silksStyle(row.ae.silks);
       card.innerHTML = `
-        <div class="rank-badge">${rank === 1 ? 'WIN' : rank === 2 ? 'PLACE' : rank === 3 ? 'SHOW' : '#' + rank}</div>
         <div class="jockey-head">
           <div class="silks"></div>
-          <div>
+          <div class="jockey-id">
             <div class="jockey-name">${row.ae.name}</div>
             <div class="jockey-handle">${row.ae.handle}</div>
           </div>
+          <div class="rank-pill">${rankLabel}</div>
         </div>
         <div class="threshold-badges">
-          <div class="tb"><div class="tb-label">$1</div><div class="tb-count">${row.dollar}</div></div>
-          <div class="tb"><div class="tb-label">$10K</div><div class="tb-count">${row.tenk}</div></div>
-          <div class="tb"><div class="tb-label">$100K</div><div class="tb-count">${row.hundredk}</div></div>
-          <div class="tb win"><div class="tb-label">$1M</div><div class="tb-count">${row.million}</div></div>
+          <div class="tb ${row.dollar ? '' : 'empty'}"><div class="tb-label">$1</div><div class="tb-count">${row.dollar}</div></div>
+          <div class="tb ${row.tenk ? '' : 'empty'}"><div class="tb-label">$10K</div><div class="tb-count">${row.tenk}</div></div>
+          <div class="tb ${row.hundredk ? '' : 'empty'}"><div class="tb-label">$100K</div><div class="tb-count">${row.hundredk}</div></div>
+          <div class="tb win ${row.million ? '' : 'empty'}"><div class="tb-label">$1M</div><div class="tb-count">${row.million}</div></div>
         </div>
         <div class="jockey-foot">
           <span>Stable T7D ARR</span>
